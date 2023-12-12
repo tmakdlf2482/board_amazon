@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org"
+                xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>게시판</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<header th:replace="header::hd"></header> <!-- th:replace="파일의 경로가 포함된 이름::fragment" -->
+<section>
+    <div class="sec_wrap">
+        <p class="sec_tit">메인페이지</p>
+        <div class="bd_container">
+            <div class="spr_wrap bd_wrap">
+                <a href="/board/spr_board" class="bd_tit">스프링 게시판</a>
+                <ul class="bd_lst" th:each="board, boardIdx: ${boardList}" th:if="${boardIdx.index} < 5 and ${!board.boardCategory}">
+                    <li>
+                        <div class="bd_wrap_child">
+                            <div class="bd_writer_info">
+                                <span th:text="${board.boardMemberWriter.memberNic}"></span>
+                                <span th:text="${board.boardMemberWriter.memberGd}"></span>
+                                <span th:text="${#dates.format(board.boardDate, 'yyyy.MM.dd')}"></span>
+                            </div>
+                            <div class="bd_title_info">
+                                <a th:href="@{/board/spr_board/{id}(id=${board.boardId})}" th:text="${board.boardTitle}"></a>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+            <div class="notice_wrap bd_wrap">
+                <a href="/board/spr_board" class="bd_tit">공지사항</a>
+                <ul class="bd_lst" th:each="board, boardIdx: ${boardList}" th:if="${boardIdx.index} < 5 and ${board.boardCategory}">
+                    <li>
+                        <div class="bd_wrap_child">
+                            <div class="bd_writer_info">
+                                <span th:text="${board.boardMemberWriter.memberNic}"></span>
+                                <span th:text="${board.boardMemberWriter.memberGd}"></span>
+                                <span th:text="${#dates.format(board.boardDate, 'yyyy.MM.dd')}"></span>
+                            </div>
+                            <div class="bd_title_info">
+                                <a th:href="@{/board/spr_board/{id}(id=${board.boardId})}" th:text="${board.boardTitle}"></a>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+<footer th:replace="footer::ft"></footer>
+</body>
+</html>

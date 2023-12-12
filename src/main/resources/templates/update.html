@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>게시판</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<header th:replace="header::hd"></header>
+<section>
+    <div class="sec_wrap sec_bd_wrap">
+        <div class="sec_bd_v_desc">
+            <p class="sec_tit sec_bd_v_tit">스프링 게시판 - 게시글 수정</p>
+        </div>
+        <div class="sec_bd_input_tit">
+            <form method="post" th:action="@{/board/update/{id}(id=${boardList.boardId})}">
+                <div class="bd_input_check">
+                    <p>공지</p>
+                    <input type="checkbox" name="boardCategory">
+                </div>
+                <div class="bd_input_tit_wrap">
+                    <p class="frm_input_desc">제목</p> 
+                    <input class="frm_input" name="boardTitle" required th:value="${boardList.boardTitle}">
+                </div>
+                <div class="bd_input_cont_wrap">
+                    <p class="frm_input_desc">내용</p>
+                    <textarea class="frm_txtarea" name="boardContent" required th:text="${boardList.boardContent}"></textarea>
+                </div>
+                <div class="bd_input_submit_wrap">
+                    <input type="button" class="frm_lst" value="목록보기">
+                    <input type="submit" class="frm_submit" value="글 등록하기" onclick="submit_click();">
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
+<footer th:replace="footer::ft"></footer>
+</body>
+</html>

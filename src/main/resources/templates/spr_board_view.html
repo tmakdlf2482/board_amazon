@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>게시판</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+<header th:replace="header::hd"></header>
+<section>
+    <div class="sec_wrap sec_bd_wrap">
+        <div class="sec_bd_v_desc">
+            <p class="sec_tit sec_bd_v_tit">스프링 게시판</p>
+        </div>
+        <div class="spr_bd_context">
+            <div class="bd_tit_wrap">
+                <div class="bd_lt_tit">
+                    <p th:text="${board.boardTitle}" class="bd_tit"></p>
+                    <div class="bd_lt_wr_info">
+                        <span th:text="|${board.boardMemberWriter.memberNic}&nbsp|" class="bd_writer"></span>
+                        <span class="bd_writer_tier" th:text="|${board.boardMemberWriter.memberGd}&nbsp|"></span>
+                        <span th:text="${#dates.format(board.boardDate, 'yyyy.MM.dd')}" class="bd_wr_time"></span>
+                    </div>
+                </div>
+                <div class="bd_rt_tit">
+                    <div class="bd_info_view_cnt">
+                        <span class="view_cnt_wrap">
+                            <i class="fa-solid fa-eye"></i>
+                            <span class="bd_info_text" th:text="${board.boardViewCnt}"></span>
+                        </span>
+                    </div>
+                    <div class="bd_info_thup">
+                        <a th:href="@{/board/spr_board/{id}/like(id=${boardId})}">
+                            <i class="fa-solid fa-thumbs-up"></i>
+                            <span class="bd_info_text" th:text="${board.boardLike}"></span>
+                        </a>
+                    </div>
+                    <div class="bd_info_thdn">
+                        <a th:href="@{/board/spr_board/{id}/dislike(id=${boardId})}">
+                            <i class="fa-regular fa-thumbs-down"></i>
+                            <span class="bd_info_text" th:text="${board.boardDislike}"></span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="bd_cont_wrap">
+                <span th:text="${board.boardContent}" class="bd_cont"></span>
+                <img th:if="${board.fileName}" th:src="@{${board.filePath}}" alt="이미지">
+            </div>
+            <div class="bd_crud_container">
+                <div class="bd_upload_wrap">
+                    <a th:if="${board.fileName}" th:href="@{${board.filePath}}" target="_blank">첨부파일 확인</a>
+                </div>
+                <div class="bd_crud_wrap">
+                    <ul>
+                        <li>
+                            <a href="#" class="share_btn">공유</a>
+                        </li>
+                        <li>
+                            <a th:href="@{/board/update/{id}(id=${boardId})}">수정</a>
+                        </li>
+                        <li>
+                            <a th:href="@{/board/delete/{id}(id=${boardId})}">삭제</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="bd_comment_wrap">
+            <p class="bd_com_tit" th:text="|${board.boardCommentCnt}개의 댓글|"></p>
+            <div class="bd_com_input_container">
+                <div class="bd_com_input_wrap">
+                    <div class="user_ico_wrap">
+                        <a href="#" class="user_ico"></a>
+                    </div>
+                    <form th:action="@{/board/spr_board/{id}(id=${boardId})}" method="post">
+                        <textarea name="commentContent" cols="30" rows="10" class="bd_com_txtarea" placeholder="댓글을 쓰려면 로그인이 필요합니다." th:if="${!sessionCheck}"></textarea>
+                        <textarea name="commentContent" cols="30" rows="10" class="bd_com_txtarea" placeholder="댓글을 작성해 주세요." th:if="${sessionCheck}"></textarea>
+                        <input type="submit" value="댓글 쓰기">
+                    </form>
+                </div>
+            </div>
+            <div class="bd_com_lst_container">
+                <ul class="bd_com_lst_wrap">
+                    <li th:each="comment: ${commentList}">
+                        <div class="bd_com_lst">
+                            <div class="user_ico_wrap">
+                                <a href="#" class="user_ico"></a>
+                                <div class="com_user_info">
+                                    <p class="com_user_name" th:text="${comment.memberWriter.memberNic}"></p>
+                                    <span class="com_user_tier" th:text="${comment.memberWriter.memberGd}"></span>
+                                    <span class="com_user_wr_time" th:text="${#dates.format(comment.commentDate, 'yyyy.MM.dd')}"></span>
+                                </div>
+                            </div>
+                            <div class="bd_com_txt_wrap">
+                                <span class="bd_com_txt" th:text="${comment.commentContent}"></span>
+                            </div>
+                        </div>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+<footer th:replace="footer::ft"></footer>
+</body>
+</html>

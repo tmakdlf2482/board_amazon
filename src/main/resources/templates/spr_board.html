@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>게시판</title>
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+<body>
+<header th:replace="header::hd"></header>
+<section>
+    <div class="sec_wrap sec_bd_wrap">
+        <div class="sec_bd_desc">
+            <p class="sec_tit sec_bd_tit">스프링 게시판</p>
+            <span>스프링 부트 프로젝트로 만든 게시판입니다.</span>
+        </div>
+        <div class="bd_lst_container">
+            <div class="spr_wrap bd_wrap">
+                <table>
+                    <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>제목</th>
+                        <th>작성자</th>
+                        <th>작성시간</th>
+                        <th>좋아요</th>
+                        <th>싫어요</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr th:each="boardList: ${boardList}">
+                        <td th:if="${boardList.boardCategory == True}" class="notice_wrap">
+                            <p th:text="공지"></p>
+                        </td>
+                        <td th:unless="${boardList.boardCategory == True}">
+                            <p th:text="${boardList.boardId}"></p>
+                        </td>
+                        <td class="bd_lst_tit">
+                            <a th:text="${boardList.boardTitle}" th:href="@{|/board/spr_board/${boardList.boardId}|}"></a>
+                        </td>
+                        <td th:text="${boardList.boardMemberWriter.memberNic}"></td>
+                        <td th:text="${#dates.format(boardList.boardDate, 'yyyy.MM.dd')}"></td>
+                        <td th:text="${boardList.boardLike}"></td>
+                        <td th:text="${boardList.boardDislike}"></td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="sec_bd_lst_menu">
+                <form action="/board/write" method="get">
+                    <input type="submit" value="글쓰기">
+                </form>
+            </div>
+            <div class="sec_bd_paging">
+                <ul>
+                    <li><a th:href="@{/board/spr_board(page=1)}">&lt;&lt;</a></li>
+                    <li><a th:href="${boardList.first} ? '#' : @{/board/spr_board(page=${boardList.number})}">&lt;</a></li>
+                    <li th:each="page: ${#numbers.sequence(startPage, endPage)}">
+                        <a class="cur_page" th:if="${page == boardList.number + 1}" th:text="${page}"></a>
+                        <a th:unless="${page == boardList.number + 1}" th:text="${page}" th:href="@{/board/spr_board(page=${page})}"></a>
+                    </li>
+                    <li><a th:href="${boardList.last} ? '#' : @{/board/spr_board(page=${boardList.number + 2})}">&gt;</a></li>
+                    <li><a th:href="@{/board/spr_board(page=${boardList.totalPages})}">&gt;&gt;</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+<footer th:replace="footer::ft"></footer>
+</body>
+</html>

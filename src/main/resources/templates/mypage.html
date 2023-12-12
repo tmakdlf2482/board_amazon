@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>게시판</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+<header th:replace="header::hd"></header>
+<section>
+   <div class="profile_container">
+        <div class="profile_wrap">
+            <div class="profile_img_wrap">
+                <div class="profile_img"></div>
+            </div>
+            <div class="profile_info_wrap">
+                <div class="profile_info_nic">
+                    <span th:text="${member.memberNic}"></span>
+                    <span th:text="|(${member.memberId})|"></span>
+                </div>
+                <div class="profile_info_gd">
+                    <ul>
+                        <li>
+                            <div class="info_gd_tit">
+                                <i class="fa-solid fa-medal"></i>   
+                                <p>회원등급</p>
+                            </div>
+                            <span th:text="${member.memberGd}"></span>
+                        </li>
+                        <li>
+                            <div class="info_gd_tit">
+                                <i class="fa-solid fa-pen"></i>
+                                <p>작성 게시글</p>
+                            </div>
+                            <span th:text="|${writeCnt}개|"></span>
+                        </li>
+                        <li>
+                            <div class="info_gd_tit">
+                                <i class="fa-solid fa-comments"></i>
+                                <p>작성 댓글</p>
+                            </div>
+                            <span th:text="|${commentCnt}개|"></span>
+                        </li>
+
+                        <li>
+                            <div class="info_gd_tit">
+                                <i class="fa-solid fa-shoe-prints"></i>
+                                <p>방문수</p>
+                            </div>
+                            <span th:text="|${visitCnt}회|"></span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+   </div>
+   <div class="profile_board_list">
+    <div class="bd_lst_container">
+        <div class="spr_wrap bd_wrap">
+            <p class="board_list_tit">작성 게시글</p>
+           <ul class="mypage_board_list">
+                <li th:each="writeList: ${writeList}">
+                    <p th:text="${#dates.format(writeList.boardDate, 'yyyy.MM.dd')}"></p>
+                    <a th:href="@{|/board/spr_board/${writeList.boardId}|}" th:text="${writeList.boardTitle}"></a>
+                </li>
+           </ul>
+        </div>
+        <div class="sec_bd_paging">
+<!--            <ul>-->
+<!--                <li><a th:href="@{/board/spr_board(page=1)}">&lt;&lt;</a></li>-->
+<!--                <li><a th:href="${boardList.first} ? '#' : @{/board/spr_board(page=${boardList.number})}">&lt;</a></li>-->
+<!--                <li th:each="page: ${#numbers.sequence(startPage, endPage)}">-->
+<!--                    <a class="cur_page" th:if="${page == boardList.number +1 }" th:text="${page}"></a>-->
+<!--                    <a th:unless="${page == boardList.number +1 }" th:text="${page}" th:href="@{/board/spr_board(page=${page})}"></a>-->
+<!--                </li>-->
+<!--                <li><a th:href="${boardList.last} ? '#' : @{/board/spr_board(page=${boardList.number + 2})}">&gt;</a></li>-->
+<!--                <li><a th:href="@{/board/spr_board(page=${boardList.totalPages})}">&gt;&gt;</a></li>-->
+<!--            </ul>-->
+        </div>
+    </div>
+   </div>
+</section>
+<footer th:replace="footer::ft"></footer>
+</body>
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<header th:fragment="hd">
+  <div class="nav">
+    <a href="/" class="logo"></a>
+    <ul class="menu">
+      <li>
+        <a href="/board/spr_board">스프링</a>
+      </li>
+    </ul>
+
+    <!-- 로그인 성공했을 때 -->
+    <div sec:authorize="isAuthenticated()" class="sign_wrap sign_suc">
+      <!-- 회원등급, 닉네임 표시 -->
+      <div class="sign_nic_wrap">
+<!--        <span th:text="${session.loginGd}"></span>-->
+        <a sec:authentication="name" href="/board/mypage" id="mylnk"></a>
+        <span>님 환영합니다.</span>
+      </div>
+      <!-- 로그아웃 버튼 -->
+      <div class="sign_logout_wrap">
+        <form th:action="@{logout}">
+          <a href="/board/logout" id="logout_btn">로그아웃</a>
+        </form>
+      </div>
+    </div>
+
+    <!-- 로그인이 실패하거나 안됐을 때 -->
+    <div class="sign_wrap" sec:authorize="!isAuthenticated()">
+      <a href="/board/login" id="login_btn">로그인</a>
+      <a href="/board/register" id="reg_btn">회원가입</a>
+    </div>
+  </div>
+</header>
+</html>

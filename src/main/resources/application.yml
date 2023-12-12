@@ -1,14 +1,14 @@
 spring:
-  security:
-    oauth2:
-      client:
-        registration:
-          google:
-            client-id: 654302603724-jfd5p0r67kqof80dqeb9fqroukqc4ifr.apps.googleusercontent.com
-            client-secret: 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
-            scope:
-              - email
-              - profile
+#  security:
+#    oauth2:
+#      client:
+#        registration:
+#          google:
+##            client-id: 654302603724-jfd5p0r67kqof80dqeb9fqroukqc4ifr.apps.googleusercontent.com
+##            client-secret: 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
+#            scope:
+#              - email
+#              - profile
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
     url: jdbc:mysql://localhost:3306/spring_board # jdbc:mysql://localhost:3306/DB이름
